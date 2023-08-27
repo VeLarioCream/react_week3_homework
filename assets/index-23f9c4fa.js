@@ -80,13 +80,13 @@ Error generating stack: `+o.message+`
         `),g()}catch(j){r(`
           刪除失敗【error】 -> ${j.message}     
           刪除失敗【message】 -> ${j.response.data.message}
-        `)}}function p(E){c(E)}async function k(E,j){try{const R=await Ye.put(ee.baseURL+ee.todoPath+E,y,h);m(""),r(`
+        `)}}function p(E){c(E)}async function k(E,j){try{const R=await Ye.put(ee.baseURL+ee.todoPath+E,y,h);r(`
         修改成功【status】 -> ${R.status}
         修改成功【content】 -> ${R.data.message}
         `),g()}catch(R){r(`
           修改失敗【error】 -> ${R.message}     
           修改失敗【message】 -> ${R.response.data.message}
-        `)}}function C(E,j){k(E)}async function P(E){try{const j=await Ye.patch(ee.baseURL+ee.todoPath+E+"/toggle",{},h);r(`
+        `)}m("")}function C(E,j){k(E)}async function P(E){try{const j=await Ye.patch(ee.baseURL+ee.todoPath+E+"/toggle",{},h);r(`
         變更成功【status】 -> ${j.status}
         變更成功【content】 -> ${j.data.message}
         `),g()}catch(j){r(`
