@@ -441,7 +441,10 @@ function TodoList({ token, nickName }) {
                   onBlur={() => setEditId(0)}
                 >
                   {(editId === item.id)
-                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => { setEditId(0) }} autoFocus />
+                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => { 
+                      setEditId(0) 
+                      setNewContent('')
+                    }} autoFocus />
                     : <span style={{ "textDecoration": item.status ? "line-through" : "none" }} >{item.content}</span>
                   }
                   <div className="btn-group">
@@ -454,11 +457,20 @@ function TodoList({ token, nickName }) {
             })}
           </ul>
         </div>
+
         <div className="alert alert-warning my-4 ml-3" role="alert" style={{ "whiteSpace": "pre-line", "overflowWrap": "break-word" }}>
           執行結果：<br /> {msg} <br />
         </div>
 
-      </div>      
+      </div>
+      {/* <div>
+        <label htmlFor='ntd' value='newTodo'>newTodo</label>
+        <input type='textarea' value={newTodo} id='ntd' />
+      </div>
+      <div>
+        <label htmlFor='nct' value='newTodo'>newContent</label>
+        <input type='textarea' value={newContent} id='nct' />
+      </div> */}
     </>
   )
 }
