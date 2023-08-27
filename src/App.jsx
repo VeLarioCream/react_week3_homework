@@ -368,8 +368,7 @@ function TodoList({ token, nickName }) {
 
   async function updateTodoList(id, newContent) {
     try {
-      const res = await axios.put(apiURL.baseURL + apiURL.todoPath + id, updatePayload, headers)
-      setNewContent('')
+      const res = await axios.put(apiURL.baseURL + apiURL.todoPath + id, updatePayload, headers)      
       setMsg(`
         修改成功【status】 -> ${res.status}
         修改成功【content】 -> ${res.data.message}
@@ -384,6 +383,7 @@ function TodoList({ token, nickName }) {
           修改失敗【message】 -> ${error.response.data.message}
         `)
     }
+    setNewContent('')
   }
 
   function handleUpdate(id, newContent) {
@@ -437,14 +437,11 @@ function TodoList({ token, nickName }) {
                     setEditId(item.id)
                     setNewContent(item.content)
                   }}
-                  onBlur={() => setEditId(0)}>
-                  {(editId === item.id) ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => {
-                    setEditId(0)
-                    // console.log(newContent)
-                  }} autoFocus /> :
-                    <span style={ {"textDecoration" : item.status ? "line-through" : "none"}} >
-                      {item.content}
-                    </span>
+                  onBlur={() => setEditId(0)}
+                >
+                  {(editId === item.id) 
+                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => {setEditId(0)}} autoFocus /> 
+                    : <span style={ {"textDecoration" : item.status ? "line-through" : "none"}} >{item.content}</span>
                   }
                   <div className="btn-group">
                     <button type="button" className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"} onClick={() => handleToggle(item.id)}> {item.status ? '↶' : '✓'}</button>
