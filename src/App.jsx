@@ -468,17 +468,20 @@ function TodoList({ token, nickName }) {
                       type="button"
                       className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
                       disabled={editId && editId !== item.id}
+                      // style={{"display" : (editId && editId !== item.id) ? "none" : ""}}
                       onClick={() => handleToggle(item.id)}> {item.status ? '↶' : '✓'}
                     </button>
                     <button
                       type="button"
                       className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
                       disabled={editId && editId !== item.id}
+                      // style={{"display" : (editId && editId !== item.id) ? "none" : ""}}
                       onClick={() => handleUpdate(item.id, newContent)}>↻</button>
                     <button
                       type="button"
                       className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
                       disabled={editId && editId !== item.id}
+                      // style={{"display" : (editId && editId !== item.id) ? "none" : ""}}
                       onClick={() => handleDelete(item.id)}>⨂</button>
                   </div>
                 </li>
@@ -493,14 +496,14 @@ function TodoList({ token, nickName }) {
 
       </div>
 
-      {/* <div>
+      <div>
         <label htmlFor='ntd' value='newTodo'>newTodo</label>
         <input type='textarea' value={newTodo} id='ntd' />
       </div>
       <div>
         <label htmlFor='nct' value='newTodo'>newContent</label>
         <input type='textarea' value={newContent} id='nct' />
-      </div> */}
+      </div>
     </>
   )
 }
