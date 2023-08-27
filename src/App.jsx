@@ -493,14 +493,14 @@ function TodoList({ token, nickName }) {
 
       </div>
 
-      {/* <div>
+      <div>
         <label htmlFor='ntd' value='newTodo'>newTodo</label>
         <input type='textarea' value={newTodo} id='ntd' />
       </div>
       <div>
         <label htmlFor='nct' value='newTodo'>newContent</label>
         <input type='textarea' value={newContent} id='nct' />
-      </div> */}
+      </div>
     </>
   )
 }
