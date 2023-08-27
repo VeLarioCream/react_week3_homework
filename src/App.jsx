@@ -351,7 +351,7 @@ function TodoList({ token, nickName }) {
         刪除成功【status】 -> ${res.status}
         刪除成功【content】 -> ${res.data.message}
         `)
-      getTodoList()      
+      getTodoList()
       // console.dir(res)
 
     } catch (error) {
@@ -365,7 +365,7 @@ function TodoList({ token, nickName }) {
   }
 
   function handleDelete(id) {
-    delTodoList(id)    
+    delTodoList(id)
   }
 
   async function updateTodoList(id, newContent) {
@@ -423,7 +423,15 @@ function TodoList({ token, nickName }) {
 
         <div className="alert alert-info ml-3" role="alert">
           <div className="input-group mb-3">
-            <input type="text" className="form-control" value={newTodo} placeholder="請輸入新的待辦事項" aria-label="請輸入新的待辦事項" aria-describedby="button-addon2" onChange={(e) => setNewTodo(e.target.value)} />
+            <input
+              type="text"
+              className="form-control"
+              value={newTodo}
+              placeholder="請輸入新的待辦事項"
+              aria-label="請輸入新的待辦事項"
+              aria-describedby="button-addon2"
+              onChange={(e) => setNewTodo(e.target.value)}
+            />
             <div className="input-group-append">
               <button className="btn btn-info btn-sm" type="button" id="button-addon2" onClick={handleAddTodo}>新增</button>
             </div>
@@ -434,23 +442,44 @@ function TodoList({ token, nickName }) {
                 <li className={item.status
                   ? "list-group-item  d-flex justify-content-between align-items-center list-group-item-secondary"
                   : "list-group-item  d-flex justify-content-between align-items-center"} key={item.id}
-                  onClick={() => {
-                    setEditId(item.id)
-                    setNewContent(item.content)
-                  }}
-                  onBlur={() => setEditId(0)}
                 >
                   {(editId === item.id)
-                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => { 
-                      setEditId(0) 
-                      setNewContent('')
-                    }} autoFocus />
-                    : <span style={{ "textDecoration": item.status ? "line-through" : "none" }} >{item.content}</span>
+                    ?
+                    <input
+                      type="text"
+                      class="form-control-sm"
+                      value={newContent}
+                      autoFocus
+                      onChange={(e) => setNewContent(e.target.value)}
+                      onBlur={() => {
+                        setEditId(0)
+                      }}
+                    />
+                    :
+                    <span style={{ "textDecoration": item.status ? "line-through" : "none" }} onClick={() => {
+                      setEditId(item.id)
+                      setNewContent(item.content)
+                    }}
+                      onBlur={() => setEditId(0)}
+                    >{item.content}</span>
                   }
                   <div className="btn-group">
-                    <button type="button" className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"} onClick={() => handleToggle(item.id)}> {item.status ? '↶' : '✓'}</button>
-                    <button type="button" className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"} onClick={() => handleUpdate(item.id, newContent)}>更新</button>
-                    <button type="button" className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"} onClick={() => handleDelete(item.id)}>刪除</button>
+                    <button
+                      type="button"
+                      className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
+                      disabled={editId && editId !== item.id}
+                      onClick={() => handleToggle(item.id)}> {item.status ? '↶' : '✓'}
+                    </button>
+                    <button
+                      type="button"
+                      className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
+                      disabled={editId && editId !== item.id}
+                      onClick={() => handleUpdate(item.id, newContent)}>↻</button>
+                    <button
+                      type="button"
+                      className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
+                      disabled={editId && editId !== item.id}
+                      onClick={() => handleDelete(item.id)}>⨂</button>
                   </div>
                 </li>
               )
@@ -463,6 +492,7 @@ function TodoList({ token, nickName }) {
         </div>
 
       </div>
+
       {/* <div>
         <label htmlFor='ntd' value='newTodo'>newTodo</label>
         <input type='textarea' value={newTodo} id='ntd' />
@@ -476,3 +506,5 @@ function TodoList({ token, nickName }) {
 }
 
 export default App
+
+
