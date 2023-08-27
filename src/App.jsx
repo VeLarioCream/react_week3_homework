@@ -12,7 +12,6 @@ const apiURL = {
 
 
 function App() {
-  const [count, setCount] = useState(0)
   const [token, setToken] = useState('')
   const [nickName, setNickName] = useState('')
 
@@ -317,26 +316,28 @@ function TodoList({ token, nickName }) {
           清單讀取失敗【message】 -> ${error.response.data.message}
         `)
     }
+    setNewContent('')
   }
 
   async function addTodoList() {
     try {
       const res = await axios.post(apiURL.baseURL + apiURL.todoPath, addPayload, headers)
-      setNewTodo('')
       setMsg(`
         新增成功【status】 -> ${res.status}
         新增成功【content】 -> 「${res.data.newTodo.content}」 已加入待辦清單
         `)
       getTodoList()
-      console.dir(res.data.newTodo.content)
+      // console.dir(res.data.newTodo.content)
 
     } catch (error) {
-      console.dir(error)
+      // console.dir(error)
       setMsg(`
           新增失敗【error】 -> ${error.message}     
           新增失敗【message】 -> ${error.response.data.message}
         `)
     }
+    setNewTodo('')
+    setNewContent('')
   }
 
   function handleAddTodo() {
@@ -350,7 +351,7 @@ function TodoList({ token, nickName }) {
         刪除成功【status】 -> ${res.status}
         刪除成功【content】 -> ${res.data.message}
         `)
-      getTodoList()
+      getTodoList()      
       // console.dir(res)
 
     } catch (error) {
@@ -360,15 +361,16 @@ function TodoList({ token, nickName }) {
           刪除失敗【message】 -> ${error.response.data.message}
         `)
     }
+    setNewContent('')
   }
 
   function handleDelete(id) {
-    delTodoList(id)
+    delTodoList(id)    
   }
 
   async function updateTodoList(id, newContent) {
     try {
-      const res = await axios.put(apiURL.baseURL + apiURL.todoPath + id, updatePayload, headers)      
+      const res = await axios.put(apiURL.baseURL + apiURL.todoPath + id, updatePayload, headers)
       setMsg(`
         修改成功【status】 -> ${res.status}
         修改成功【content】 -> ${res.data.message}
@@ -429,19 +431,18 @@ function TodoList({ token, nickName }) {
           <ul className="list-group">
             {todo.map((item) => {
               return (
-                <li className= {item.status 
-                  ? "list-group-item  d-flex justify-content-between align-items-center list-group-item-secondary" 
-                  : "list-group-item  d-flex justify-content-between align-items-center"}  key={item.id
-                  }
+                <li className={item.status
+                  ? "list-group-item  d-flex justify-content-between align-items-center list-group-item-secondary"
+                  : "list-group-item  d-flex justify-content-between align-items-center"} key={item.id}
                   onClick={() => {
                     setEditId(item.id)
                     setNewContent(item.content)
                   }}
                   onBlur={() => setEditId(0)}
                 >
-                  {(editId === item.id) 
-                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => {setEditId(0)}} autoFocus /> 
-                    : <span style={ {"textDecoration" : item.status ? "line-through" : "none"}} >{item.content}</span>
+                  {(editId === item.id)
+                    ? <input type="text" class="form-control-sm" value={newContent} onChange={(e) => setNewContent(e.target.value)} onBlur={() => { setEditId(0) }} autoFocus />
+                    : <span style={{ "textDecoration": item.status ? "line-through" : "none" }} >{item.content}</span>
                   }
                   <div className="btn-group">
                     <button type="button" className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"} onClick={() => handleToggle(item.id)}> {item.status ? '↶' : '✓'}</button>
@@ -453,7 +454,6 @@ function TodoList({ token, nickName }) {
             })}
           </ul>
         </div>
-
         <div className="alert alert-warning my-4 ml-3" role="alert" style={{ "whiteSpace": "pre-line", "overflowWrap": "break-word" }}>
           執行結果：<br /> {msg} <br />
         </div>
