@@ -284,6 +284,7 @@ function TodoList({ token, nickName }) {
   const [newTodo, setNewTodo] = useState('')
   const [editId, setEditId] = useState('')
   const [newContent, setNewContent] = useState('')
+  const [saveID, setsaveID] = useState('') //用來記錄哪個項目被編輯後仍待送到後端保存
 
   const headers = {
     "headers": {
@@ -450,17 +451,19 @@ function TodoList({ token, nickName }) {
                       class="form-control-sm"
                       value={newContent}
                       autoFocus
-                      onChange={(e) => setNewContent(e.target.value)}
+                      onChange={(e) => {
+                        setsaveID(item.id) // 當該項目被編輯時，紀錄ID為未存檔項目
+                        setNewContent(e.target.value)}}
                       onBlur={() => {
-                        setEditId(0)
+                        setEditId('')
                       }}
                     />
                     :
                     <span style={{ "textDecoration": item.status ? "line-through" : "none" }} onClick={() => {
-                      setEditId(item.id)
+                      setEditId(item.id)                      
                       setNewContent(item.content)
                     }}
-                      onBlur={() => setEditId(0)}
+                      // onBlur={() => setEditId(0)}
                     >{item.content}</span>
                   }
                   <div className="btn-group">
@@ -476,7 +479,13 @@ function TodoList({ token, nickName }) {
                       className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
                       disabled={editId && editId !== item.id}
                       // style={{"display" : (editId && editId !== item.id) ? "none" : ""}}
-                      onClick={() => handleUpdate(item.id, newContent)}>↻</button>
+                      onClick={() => {
+                        if(saveID === item.id) { // 點選未存檔項目的更新按鈕才能觸發"更新&存檔"功能
+                          handleUpdate(item.id, newContent)
+                          setsaveID('')
+                        }
+                        setNewContent('')
+                      }}>↻</button>
                     <button
                       type="button"
                       className={item.status ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-info btn-sm"}
@@ -496,14 +505,23 @@ function TodoList({ token, nickName }) {
 
       </div>
 
-      <div>
+      {/* debug */}
+      {/* <div>
         <label htmlFor='ntd' value='newTodo'>newTodo</label>
         <input type='textarea' value={newTodo} id='ntd' />
       </div>
       <div>
-        <label htmlFor='nct' value='newTodo'>newContent</label>
+        <label htmlFor='nct' value='newContent'>newContent</label>
         <input type='textarea' value={newContent} id='nct' />
       </div>
+      <div>
+        <label htmlFor='nct' value='editId'>editId</label>
+        <input type='textarea' value={editId} id='nct' />
+      </div>
+      <div>
+        <label htmlFor='nct' value='saveID'>saveID</label>
+        <input type='textarea' value={saveID} id='nct' />
+      </div> */}
     </>
   )
 }
